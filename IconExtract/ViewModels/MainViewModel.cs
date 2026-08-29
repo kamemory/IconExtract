@@ -1,0 +1,91 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+
+using Klib;
+using Klib.ViewModels;
+
+using IconExtract.Services;
+
+namespace IconExtract.ViewModels
+{
+    public class MainViewModel : ViewModelBase
+    {
+        public MainViewModel()
+        {
+            this.ExtractTargets = [];
+
+            _allExtractCommand = new(this.OnAllExtract, this.CanAllExtract);
+        }
+
+        public void Init()
+        {
+            string[] arguments = [.. Environment.GetCommandLineArgs().Skip(1)];
+            this.SetFilesInternal(arguments);
+            if (this.ExtractTargets.Count > 0)
+            {
+                this.SetCanExecute(true);
+            }
+        }
+
+        public void SetFiles(string[] files)
+        {
+            this.SetFilesInternal(files);
+            this.SetCanExecute(this.ExtractTargets.Count > 0);
+        }
+
+        public ObservableCollection<FileItem> ExtractTargets { get; private set; }
+
+        public ICommand AllExtractCommand { get { return _allExtractCommand; } }
+
+
+        private readonly RelayCommand _allExtractCommand;
+        private bool _canExtract = false;
+
+
+        private void SetFilesInternal(string[] files)
+        {
+            this.ExtractTargets.Clear();
+            foreach (string file in files)
+            {
+                ExtractFile? f = ExtractFile.Create(file);
+                if (f != null)
+                {
+                    this.ExtractTargets.Add(new(f));
+                }
+            }
+        }
+
+        private void SetCanExecute(bool can)
+        {
+            _canExtract = can;
+            _allExtractCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool CanAllExtract()
+        {
+            return _canExtract;
+        }
+
+        private void OnAllExtract()
+        {
+            this.SetCanExecute(false);
+            Task.Run(this.ExtractMain);
+        }
+
+        private void ExtractMain()
+        {
+            string outputPath = PathUtil.GetFilePathInExec("out");
+            foreach (FileItem file in this.ExtractTargets)
+            {
+                file.Extract(outputPath);
+            }
+
+            App.Current.Dispatcher.Invoke(() => this.SetCanExecute(true));
+        }
+    }
+}

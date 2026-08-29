@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37314.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IconExtract", "IconExtract\IconExtract.csproj", "{9DBCEA90-0B1F-4064-AD8C-13A7266EBA27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Klib", "Klib\Klib.csproj", "{6C7FCD43-F051-4439-BAB4-BE411DB938F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DBCEA90-0B1F-4064-AD8C-13A7266EBA27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DBCEA90-0B1F-4064-AD8C-13A7266EBA27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DBCEA90-0B1F-4064-AD8C-13A7266EBA27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DBCEA90-0B1F-4064-AD8C-13A7266EBA27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C7FCD43-F051-4439-BAB4-BE411DB938F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C7FCD43-F051-4439-BAB4-BE411DB938F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C7FCD43-F051-4439-BAB4-BE411DB938F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C7FCD43-F051-4439-BAB4-BE411DB938F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2F717CAC-2A40-42B6-A01F-FC202230A7F3}
+	EndGlobalSection
+EndGlobal
