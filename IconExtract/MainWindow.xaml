@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:IconExtract"
         xmlns:vm="clr-namespace:IconExtract.ViewModels"
         mc:Ignorable="d"
-        Title="アイコンを保存したいのよ" Height="240" Width="440"
+        Title="アイコンを保存したいのよ" Height="320" Width="640"
         AllowDrop="True"
         Loaded="Window_Loaded"
         PreviewDragOver="Window_PreviewDragOver"
@@ -23,8 +23,29 @@
         </Grid.RowDefinitions>
 
         <ListBox Margin="8"
-                 ItemsSource="{Binding Path=ExtractTargets}"
-                 DisplayMemberPath="FilePath">
+                 ItemsSource="{Binding Path=ExtractTargets}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:FileItem}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="28" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Path=Status}"/>
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Path=FilePath}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
 
         <Button Grid.Row="1"

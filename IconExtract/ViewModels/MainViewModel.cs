@@ -10,6 +10,7 @@ using Klib;
 using Klib.ViewModels;
 
 using IconExtract.Services;
+using System.Windows;
 
 namespace IconExtract.ViewModels
 {
@@ -28,7 +29,8 @@ namespace IconExtract.ViewModels
             this.SetFilesInternal(arguments);
             if (this.ExtractTargets.Count > 0)
             {
-                this.SetCanExecute(true);
+                this.SetCanExecute(false);
+                this.AutoExtractStart();
             }
         }
 
@@ -77,8 +79,22 @@ namespace IconExtract.ViewModels
             Task.Run(this.ExtractMain);
         }
 
+        private async void AutoExtractStart()
+        {
+            await Task.Run(this.ExtractMain);
+            App.Current.Shutdown();
+        }
+
         private void ExtractMain()
         {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                foreach (FileItem file in this.ExtractTargets)
+                {
+                    file.Prepare();
+                }
+            });
+
             string outputPath = PathUtil.GetFilePathInExec("out");
             foreach (FileItem file in this.ExtractTargets)
             {
