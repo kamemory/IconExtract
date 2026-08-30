@@ -9,6 +9,8 @@ WindowsのEXE/DLLファイルからアイコンリソースを抽出し、icoフ
 
 [Release](https://github.com/kamemory/IconExtract/releases)からzipファイルをダウンロードして、適当なフォルダに展開。
 
+.NET9.0のランタイム？が必要？ですけど？
+
 ## アンインストール
 
 レジストリとかは(多分)使わないので、そのままインストールしたフォルダごと削除。
