@@ -11,6 +11,8 @@ using Klib.ViewModels;
 
 using IconExtract.Services;
 using System.Windows;
+using System.IO;
+using System.Collections.Specialized;
 
 namespace IconExtract.ViewModels
 {
@@ -20,6 +22,7 @@ namespace IconExtract.ViewModels
         {
             this.ExtractTargets = [];
 
+            _pasteCommand = new(this.OnPaste);
             _allExtractCommand = new(this.OnAllExtract, this.CanAllExtract);
         }
 
@@ -42,9 +45,12 @@ namespace IconExtract.ViewModels
 
         public ObservableCollection<FileItem> ExtractTargets { get; private set; }
 
+        public ICommand PasteCommand { get { return _pasteCommand; } }
+
         public ICommand AllExtractCommand { get { return _allExtractCommand; } }
 
 
+        private readonly RelayCommand _pasteCommand;
         private readonly RelayCommand _allExtractCommand;
         private bool _canExtract = false;
 
@@ -59,6 +65,24 @@ namespace IconExtract.ViewModels
                 {
                     this.ExtractTargets.Add(new(f));
                 }
+            }
+        }
+
+        private void OnPaste()
+        {
+            if (Clipboard.ContainsText())
+            {
+                string clipboardText = Clipboard.GetText();
+                string[] pathEntries = [..  clipboardText.Split("\n", StringSplitOptions.RemoveEmptyEntries)
+                    .Select(p => p.Trim().Trim('"'))
+                    .Where(p => !string.IsNullOrEmpty(p) && File.Exists(p)) ];
+                this.SetFiles(pathEntries);
+            }
+            else if (Clipboard.ContainsFileDropList())
+            {
+                string[] dropList = [.. Clipboard.GetFileDropList().OfType<string>()];
+                string[] pathEntries = [.. dropList.Where(p => !string.IsNullOrEmpty(p) && File.Exists(p))];
+                this.SetFiles(pathEntries);
             }
         }
 

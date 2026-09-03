@@ -16,6 +16,10 @@
         <vm:MainViewModel/>
     </Window.DataContext>
 
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="V" Command="{Binding Path=PasteCommand}" />
+    </Window.InputBindings>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
